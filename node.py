@@ -15,4 +15,5 @@ class Node:
 
         """
         Trzeba przemyslec te __last_node moim zdaniem. Trzeba zrobic tak zeby dalo sie elegancko uzyc multiprocesing. wiec trzeba do tego strukture przygotowac(node)
+        Chyba parent node bedzie trzeba zrobic jako zmiena podana od scrapera inczej nie pujdzie
         """
