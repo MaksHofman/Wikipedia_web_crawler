@@ -1,14 +1,28 @@
 from bs4 import BeautifulSoup
 import requests
+import node
+import multiprocessing 
 
 class Scraper:
-    wikipedia_base_link = "https://wikipedia.org/" #link do wikipedi !!!mozna dodac kraj jako zmiena zeby informacje byly w jezyku zachcianym
-    
-    def __init__(self, web_page_name):
-        self.web_page_name = web_page_name
+    _wikipedia_base_link = "https://wikipedia.org/" #link do wikipedi !!!mozna dodac kraj jako zmiena zeby informacje byly w jezyku zachcianym
+    _max_depth = 15
 
+    def __init__(self, web_page_name:str, depth:int):
+        self.web_page_name = web_page_name
+        self.depth = depth
+        re = requests.get(self.web_page_name)
+        parent_soup = BeautifulSoup(re.text, features="lxml")
+        node() # incjializacja Parent noda
+        for link in parent_soup.find_all('a'): # 1 loop
+            Scraper.scrape_single_link(link.get('href'))
+
+    #make it multiprocesing able
     def scrape_single_link(Link: str):
-        return
+        re = requests.get(Link)
+        child_soup = BeautifulSoup(re.text, features="lxml")
+        node() #init child node
+        for link in child_soup.find_all('a'):
+            Scraper.scrape_single_link(link.get('href')) #repet proces
 
 
 if __name__ == "__main__":
