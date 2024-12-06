@@ -10,24 +10,28 @@ class Scraper:
     def __init__(self, web_page_name:str, depth:int):
         self.web_page_name = web_page_name
         self.depth = depth
+        
         re = requests.get(self.web_page_name)
-        parent_soup = BeautifulSoup(re.text, features="lxml")
-        node() # incjializacja Parent noda
-        for link in parent_soup.find_all('a'): # 1 loop
-            Scraper.scrape_single_link(link.get('href'))
+        root_soup = BeautifulSoup(re.text, features="lxml")
+        root_node = node(Scraper.html_into_node_init(root_soup),web_page_name, 0) # incjializacja root noda
+        for link in root_soup.find_all('a'): # 1 loop
+            Scraper.scrape_single_link(link.get('href'), 0, root_node)
 
     #make it multiprocesing able
-    def scrape_single_link(Link: str):
+    def scrape_single_link(Link: str, depth:int, last_node:node):
+        
         re = requests.get(Link)
         child_soup = BeautifulSoup(re.text, features="lxml")
-        node() #init child node
+        child_node = node(Scraper.html_into_node_init(child_soup), link, depth+1, last_node) #init child node
         for link in child_soup.find_all('a'):
-            Scraper.scrape_single_link(link.get('href')) #repet proces
+            Scraper.scrape_single_link(link.get('href'), depth+1, child_node) #repet proces
     
-    def html_into_node_init(soup):
-        return
+    def html_into_title(soup):
+        return soup.title.text
 
 
+
+#test code HERE
 if __name__ == "__main__":
     wikipedia_test = "https://pl.wikipedia.org/wiki/Operacja_Harekate_Yolo"
     re = requests.get(wikipedia_test)
