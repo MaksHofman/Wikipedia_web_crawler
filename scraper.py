@@ -23,6 +23,9 @@ class Scraper:
         node() #init child node
         for link in child_soup.find_all('a'):
             Scraper.scrape_single_link(link.get('href')) #repet proces
+    
+    def html_into_node_init(soup):
+        return
 
 
 if __name__ == "__main__":
