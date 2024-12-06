@@ -7,6 +7,9 @@ class Scraper:
     def __init__(self, web_page_name):
         self.web_page_name = web_page_name
 
+    def scrape_single_link(Link: str):
+        return
+
 
 if __name__ == "__main__":
     wikipedia_test = "https://pl.wikipedia.org/wiki/Operacja_Harekate_Yolo"
@@ -15,3 +18,8 @@ if __name__ == "__main__":
     soup = BeautifulSoup(re.text, features="lxml")
     for link in soup.find_all('a'):
         print(link.get('href'))
+
+    """
+    Trzeba przemyslec jak incjializujemy scraping. Myslalem zeby w konstruktorze rozpoczac tak ze juz wywolany scraper ma wszystkie dane.
+    + mozna zrobic jakas kolase do analizy i wizualizacj tych danych zeby bylo tak fancy
+    """
