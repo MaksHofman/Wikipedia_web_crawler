@@ -20,10 +20,10 @@ class Scraper:
         re = requests.get(link)
         child_soup = BeautifulSoup(re.text, features="lxml")
         child_node = Node(title=child_soup.title.text, link=link, depth=depth+1, last_node=last_node) #init child node
-        for i in child_soup.find_all(id="mw-content-text"):
+        for i in child_soup.find_all('p'):
             for link in i.find_all('a'):
             #tutaj trzeba dodac multiprocesing
-                #print(link.get('href'))
+                print(link.get('href'))
                 if link.get('href') == None:
                     pass
                 Scraper.scrape_single_link(str(Scraper._wikipedia_base_link + link.get('href')), depth+1, child_node) #te depth chyba jest zle w kontekscie bez 
@@ -37,7 +37,7 @@ class Scraper:
 #test code HERE
 if __name__ == "__main__":
     #Trzeba napisac testy do calej klasy
-    New_scrap = Scraper("https://pl.wikipedia.org/wiki/Operacja_Harekate_Yolo", 4)
+    New_scrap = Scraper("https://pl.wikipedia.org/wiki/Operacja_Harekate_Yolo", 2)
     Node.print_out_whole_tree
 
 
