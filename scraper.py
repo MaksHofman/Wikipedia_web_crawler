@@ -1,11 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 from node import Node
-import multiprocessing 
-
+import threading
+import re
 class Scraper:
     _wikipedia_base_link = "https://wikipedia.org/" #link do wikipedi !!!mozna dodac kraj jako zmiena zeby informacje byly w jezyku zachcianym
-    _max_depth = 15
+    _max_depth = 2
 
     def __init__(self, web_page_name:str, depth:int):
         self.web_page_name = web_page_name
@@ -23,10 +23,17 @@ class Scraper:
         for i in child_soup.find_all('p'):
             for link in i.find_all('a'):
             #tutaj trzeba dodac multiprocesing
-                print(link.get('href'))
+                #print(link.get('href'))
+                if re.search("#.", link.get('href').text):
+                    pass
+                #trzeba filtry nalozyc tu mozna tez duplikaty skipoowac
+                duplicat_search_array = []
+                
                 if link.get('href') == None:
                     pass
-                Scraper.scrape_single_link(str(Scraper._wikipedia_base_link + link.get('href')), depth+1, child_node) #te depth chyba jest zle w kontekscie bez 
+                if type( Scraper._wikipedia_base_link + link.get('href')) == str:
+                    thread = threading.Thread(target=Scraper.scrape_single_link, args=(str(Scraper._wikipedia_base_link + link.get('href')), depth+1, child_node, max_depth))
+                    thread.start()
 
     @classmethod        
     def html_into_title(soup:object) -> str:
