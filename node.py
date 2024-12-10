@@ -23,7 +23,7 @@ class Node:
     @staticmethod
     def print_out_whole_tree() -> print: #prints out hole tree
         for i in range(Node._node_memory[-1].depth):
-            print(f"{i} \n {Node.sort_memory_by_depth(i)}")
+            print(f"{i} \n {Node.sort_memory_by_depth(i)[0].title}")
         
 
         """
