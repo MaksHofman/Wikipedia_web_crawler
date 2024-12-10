@@ -13,7 +13,7 @@ class Scraper:
         print("start_init")
         global threads 
         threads = list() #naprawic  puzniej trzeba to
-        Scraper.scrape_single_link(link=self.web_page_name, depth=-1, last_node=None, max_depth=depth)
+        Scraper.scrape_single_link(link=self.web_page_name, depth=0, last_node=None, max_depth=depth)
         for thread in threads:
             thread.join()
 
@@ -50,7 +50,7 @@ class Scraper:
 #test code HERE
 if __name__ == "__main__":
     #Trzeba napisac testy do calej klasy
-    New_scrap = Scraper("https://pl.wikipedia.org/wiki/Operacja_Harekate_Yolo", 2)
+    New_scrap = Scraper("https://pl.wikipedia.org/wiki/Grupa_Fortowa_%E2%80%9ECarski_Dar%E2%80%9D_Twierdzy_Modlin", 2)
     Node.print_out_whole_tree()
     print("koniec")
 
