@@ -8,7 +8,7 @@ class Node:
         self.parent_node = last_node 
         Node._node_memory.append(self)
 
-    @classmethod
+    @staticmethod
     def sort_memory_by_depth(depth:int) -> list: #returns an array of nodes with correct depth
         return_array = []
         for i in Node._node_memory:
@@ -20,9 +20,9 @@ class Node:
     def node_memory_wipe():
         Node._node_memory = []
     
-    @classmethod
+    @staticmethod
     def print_out_whole_tree() -> print: #prints out hole tree
-        for i in Node._node_memory[-1].depth:
+        for i in range(Node._node_memory[-1].depth):
             print(f"{i} \n {Node.sort_memory_by_depth(i)}")
         
 
