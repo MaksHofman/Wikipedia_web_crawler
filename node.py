@@ -1,3 +1,4 @@
+import re
 class Node:
     _node_memory = []
     
@@ -6,7 +7,10 @@ class Node:
         self.link = link
         self.depth = depth #warstwa na ktorej jest dany node
         self.parent_node = last_node 
-        Node._node_memory.append(self)
+        if re.search("Permission error.", self.title):
+            pass
+        else:
+            Node._node_memory.append(self)
 
     def __str__(self) -> str:
         return f"Nazwa: {self.title}, Warstwa/glebokosc: {self.depth}"

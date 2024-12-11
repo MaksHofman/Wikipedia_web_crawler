@@ -25,7 +25,7 @@ class Scraper:
         req = requests.get(link)
         child_soup = BeautifulSoup(req.text, features="lxml")
         #filtry zeby bledne nody sie nie tworzyly
-        if ("Not Found"  or "" or "Permission error") == str(child_soup.title.text):
+        if ("Not Found"  or "") == str(child_soup.title.text):
             return
         if re.search("Plik:.", str(child_soup.title.text)) or re.search("File:.", str(child_soup.title.text)) or re.search("Szablon:.", str(child_soup.title.text)) or re.search("Dyskusja szablonu:.", str(child_soup.title.text)):
             return
