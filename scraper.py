@@ -11,14 +11,15 @@ class Scraper:
         self.web_page_name = web_page_name
         self.depth = depth
         print("start_init")
-        global threads 
-        threads = list() #naprawic  puzniej trzeba to
-        Scraper.scrape_single_link(link=self.web_page_name, depth=0, last_node=None, max_depth=depth)
+        unwanted_array = []
+        global threads  #trzxeba to naprawic (nw jak)
+        threads = list() 
+        Scraper.scrape_single_link(link=self.web_page_name, depth=0, last_node=None, max_depth=depth, unwanted_array=unwanted_array)
         for thread in threads:
             thread.join()
 
     #make it multiprocesing able
-    def scrape_single_link(link: str, depth:int, last_node:Node, max_depth = _max_depth):
+    def scrape_single_link(link: str, depth:int, last_node:Node, max_depth = _max_depth, unwanted_array = []): #?
         if depth > max_depth:
             return 
         req = requests.get(link)
@@ -33,14 +34,14 @@ class Scraper:
                     break
 
                 #Trzeba zrobic filtry dla tych tablic
-                duplicat_search_array = []
-                usless_titles_array = []
+                unwanted_array #doniej trzeba dodac duplikaty i niechciane elementy
+            
                 
                 if type( Scraper._wikipedia_base_link + link.get('href')) == str:# ten if chyba nie potrzebny
                     thread = threading.Thread(target=Scraper.scrape_single_link, args=(str(Scraper._wikipedia_base_link + link.get('href')), depth+1, child_node, max_depth))
                     threads.append(thread)
                     thread.start()
-    def search_if_is_in_array(input:str, array:object.array) -> bool: #sus array:object.array ale nw jak to zapisac normalnie
+    def search_if_is_in_array(input:str, array:list) -> bool: #sus list ale nw jak to zapisac normalnie
         pass
 #test code HERE
 if __name__ == "__main__":
