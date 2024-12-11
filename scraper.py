@@ -5,7 +5,7 @@ import threading
 import re
 class Scraper:
     _wikipedia_base_link = "https://wikipedia.org/" #link do wikipedi !!!mozna dodac kraj jako zmiena zeby informacje byly w jezyku zachcianym
-    _max_depth = 2
+    _max_depth = 5
 
     def __init__(self, web_page_name:str, depth:int):
         self.web_page_name = web_page_name
@@ -16,7 +16,6 @@ class Scraper:
         Scraper.scrape_single_link(link=self.web_page_name, depth=0, last_node=None, max_depth=depth)
         for thread in threads:
             thread.join()
-
 
     #make it multiprocesing able
     def scrape_single_link(link: str, depth:int, last_node:Node, max_depth = _max_depth):
@@ -40,12 +39,6 @@ class Scraper:
                     thread = threading.Thread(target=Scraper.scrape_single_link, args=(str(Scraper._wikipedia_base_link + link.get('href')), depth+1, child_node, max_depth))
                     threads.append(thread)
                     thread.start()
-
-    """@classmethod        
-    def html_into_title(soup:object) -> str:   chyba  usess funkcjia
-        return str(soup.title.text)"""
-
-
 
 #test code HERE
 if __name__ == "__main__":
