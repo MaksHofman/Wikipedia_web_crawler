@@ -4,7 +4,8 @@ from node import Node
 import threading
 import re
 class Scraper:
-    _wikipedia_base_link = "https://wikipedia.org/" #link do wikipedi !!!mozna dodac kraj jako zmiena zeby informacje byly w jezyku zachcianym
+    _jezyk_polski = "pl."
+    _wikipedia_base_link = f"https://{_jezyk_polski}wikipedia.org/" #link do wikipedi !!!mozna dodac kraj jako zmiena zeby informacje byly w jezyku zachcianym
     _max_depth = 5
 
     def __init__(self, web_page_name:str, depth:int):
@@ -27,7 +28,7 @@ class Scraper:
         #filtry zeby bledne nody sie nie tworzyly
         if ("Not Found"  or "") == str(child_soup.title.text):
             return
-        if re.search("Plik:.", str(child_soup.title.text)) or re.search("File:.", str(child_soup.title.text)) or re.search("Szablon:.", str(child_soup.title.text)) or re.search("Dyskusja szablonu:.", str(child_soup.title.text)):
+        if re.search("Plik:.", str(child_soup.title.text)) or re.search("File:.", str(child_soup.title.text)) or re.search("Szablon:.", str(child_soup.title.text)) or re.search("Dyskusja szablonu:.", str(child_soup.title.text))or re.search("Wikipedia:.", str(child_soup.title.text)) or re.search("Pomoc:.", str(child_soup.title.text)) or re.search("Edytujesz.", str(child_soup.title.text)):
             return
         
         child_node = Node(title=child_soup.title.text, link=link, depth=depth, last_node=last_node) #init child node
@@ -65,6 +66,8 @@ if __name__ == "__main__":
     #Trzeba napisac testy do calej klasy
     New_scrap = Scraper("https://pl.wikipedia.org/wiki/Grupa_Fortowa_%E2%80%9ECarski_Dar%E2%80%9D_Twierdzy_Modlin", 2)
     Node.print_out_whole_tree()
+    for i in Node._node_memory:
+        print(str(i))
     print("koniec")
 
 
