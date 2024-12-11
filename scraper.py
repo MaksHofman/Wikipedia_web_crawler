@@ -24,25 +24,38 @@ class Scraper:
             return 
         req = requests.get(link)
         child_soup = BeautifulSoup(req.text, features="lxml")
+        if "Not Found" == str(child_soup.title.text):
+            return
         child_node = Node(title=child_soup.title.text, link=link, depth=depth, last_node=last_node) #init child node
-        for i in child_soup.find_all('p'):
+        for i in child_soup.find_all(id="bodyContent"):
             for link in i.find_all('a'):
  
                 if link.get('href') == None:
                     break
                 if re.search("#.", str(link.get('href'))):
                     break
-
+                
                 #Trzeba zrobic filtry dla tych tablic
-                unwanted_array #doniej trzeba dodac duplikaty i niechciane elementy
+                if Scraper.search_if_is_in_array(str(link.get('href')), unwanted_array):
+                    break
+                
+                else:
+                    unwanted_array.append(link.get('href'))
+                 #doniej trzeba dodac duplikaty i niechciane elementy
             
                 
                 if type( Scraper._wikipedia_base_link + link.get('href')) == str:# ten if chyba nie potrzebny
                     thread = threading.Thread(target=Scraper.scrape_single_link, args=(str(Scraper._wikipedia_base_link + link.get('href')), depth+1, child_node, max_depth))
                     threads.append(thread)
                     thread.start()
+   
+    @staticmethod
     def search_if_is_in_array(input:str, array:list) -> bool: #sus list ale nw jak to zapisac normalnie
-        pass
+        for i in array:
+            if input == i:
+                return True
+        return False
+    
 #test code HERE
 if __name__ == "__main__":
     #Trzeba napisac testy do calej klasy
