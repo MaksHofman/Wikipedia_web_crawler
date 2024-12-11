@@ -20,7 +20,7 @@ class Scraper:
 
     #make it multiprocesing able
     def scrape_single_link(link: str, depth:int, last_node:Node, max_depth = _max_depth):
-        if depth == max_depth:
+        if depth > max_depth:
             return 
         req = requests.get(link)
         child_soup = BeautifulSoup(req.text, features="lxml")
@@ -57,5 +57,10 @@ if __name__ == "__main__":
 
     """
     UWAGI:
-    Threading jeszce niedziala. Chyba filtr jest dobry (trzeba tez chyba fundation wywalac). Output sie nie generuje poprawnie
+    Threading dziala. Trzeba poprawic filtry i duplikaty
+    DO ZROBIENIA:
+    1. Filtry dodac
+    2. Upiekrzyc kod
+    3. Jakas klasa do analizy lub dodac szukania specjalnego linka w drzewku.
+    4. moze jakas wizualizacja
     """
