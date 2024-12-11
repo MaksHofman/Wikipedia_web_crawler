@@ -32,14 +32,16 @@ class Scraper:
                 if re.search("#.", str(link.get('href'))):
                     break
 
-                #trzeba filtry nalozyc tu mozna tez duplikaty skipoowac
+                #Trzeba zrobic filtry dla tych tablic
                 duplicat_search_array = []
+                usless_titles_array = []
                 
-                if type( Scraper._wikipedia_base_link + link.get('href')) == str:
+                if type( Scraper._wikipedia_base_link + link.get('href')) == str:# ten if chyba nie potrzebny
                     thread = threading.Thread(target=Scraper.scrape_single_link, args=(str(Scraper._wikipedia_base_link + link.get('href')), depth+1, child_node, max_depth))
                     threads.append(thread)
                     thread.start()
-
+    def search_if_is_in_array(input:str, array:object.array) -> bool: #sus array:object.array ale nw jak to zapisac normalnie
+        pass
 #test code HERE
 if __name__ == "__main__":
     #Trzeba napisac testy do calej klasy
