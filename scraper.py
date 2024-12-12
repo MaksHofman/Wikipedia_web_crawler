@@ -20,7 +20,7 @@ class Scraper:
             thread.join()
 
     #make it multiprocesing able
-    def scrape_single_link(link: str, depth:int, last_node:Node, max_depth = _max_depth, unwanted_array = []): #?
+    def scrape_single_link(link: str, depth:int, last_node:Node, unwanted_array:list , max_depth = _max_depth): #?
         if depth > max_depth:
             return 
         req = requests.get(link)
@@ -41,7 +41,7 @@ class Scraper:
                     break
                 
                 #Trzeba zrobic filtry dla tych tablic
-                if Scraper.search_if_is_in_array(str(link.get('href')), unwanted_array):
+                if Scraper.search_if_is_in_array(input=str(link.get('href')), array=unwanted_array) and unwanted_array != []:
                     break
                 
                 else:
@@ -56,6 +56,7 @@ class Scraper:
    
     @staticmethod
     def search_if_is_in_array(input:str, array:list) -> bool: #sus list ale nw jak to zapisac normalnie
+        print(array)
         for i in array:
             if input == i:
                 return True
